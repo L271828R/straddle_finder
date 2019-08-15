@@ -4,6 +4,7 @@
 tickers=['spy',
 'mo',
 'aapl',
+'huya',
 'twlo',
 'tsla',
 'goog',
