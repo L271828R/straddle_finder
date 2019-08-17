@@ -53,7 +53,19 @@ class OptionPage:
         for op in options:
             dates.append(datetime.strptime(op.text, "%B %d, %Y"))
         return dates
-    
+
+    def get_close_date(self):
+        close_date = None
+        close_date_raw = self.driver.find_element_by_id("quote-market-notice").text
+        if "At close" in close_date_raw:
+            close_date = close_date_raw.split("At close: ")[1]
+            close_date = close_date.replace(" EDT", "")
+            close_dt = datetime.strptime(close_date, "%B %d %I:%M%p")
+            close_date = close_dt.strftime( str(datetime.now().year) + "-%m-%d")
+        return close_date
+
+
+
     def get_straddle(self, straddle_type, date):
         el_table = self.driver.find_element_by_css_selector("table.straddles")
         rows = el_table.find_elements_by_css_selector("tr." + straddle_type)
@@ -65,6 +77,12 @@ class OptionPage:
         row = row.text.replace(",", "").split(" ")
         # print(row)
         time_stamp = datetime.now().strftime("%Y-%m-%d")
+
+        is_close_date = False
+        close_date = self.get_close_date()
+        if close_date:
+            is_close_date = True
+
         try:
             put_price = float(row[self.PUT_PRICE_COLUMN])
             call_price = float(row[self.CALL_PRICE_COLUMN])
@@ -84,6 +102,8 @@ class OptionPage:
                  "be" : str(be) + "%",
                  "ticker": self.ticker,
                  "time_stamp": time_stamp,
+                 "close_date": close_date,
+                 "is_close_date": is_close_date,
                  "days_to_expiration": diff                
                  }
 
@@ -133,10 +153,29 @@ def create_driver(conf):
     return  webdriver.Chrome(".//chromedriver", chrome_options=chrome_options)
     
 
+def save_straddle(conn, straddle):
+    db = conn.database 
+    collection = db.straddles
+    if straddle is not None:
+        cursor = collection.find({
+            'strike':straddle['strike'],
+            'date': straddle['date'],
+            'type': straddle['type'],
+            'ticker': straddle['ticker'],
+            'close_date': straddle['close_date']
+        })
+
+        if cursor.count() == 0:
+            collection.insert_one(straddle)
+            return True
+        else:
+            return False
+
+
 def main(conn):
     print('Straddle Finder') 
     driver = create_driver(conf)
-    # tickers = ['aapl','spy']
+    tickers = ['aapl','spy']
     straddles = []
     op = OptionPage(driver=driver, conf=conf)
     for count, tick in enumerate(tickers):
@@ -158,25 +197,6 @@ def main(conn):
     driver_cleanup(driver)
     print('returning straddles')
     return straddles
-
-
-def save_straddle(conn, straddle):
-    db = conn.database 
-    collection = db.straddles
-    if straddle is not None:
-        cursor = collection.find({
-            'strike':straddle['strike'],
-            'date': straddle['date'],
-            'type': straddle['type'],
-            'ticker': straddle['ticker'],
-            'days_to_expiration': straddle['days_to_expiration']
-        })
-
-        if cursor.count() == 0:
-            collection.insert_one(straddle)
-            return True
-        else:
-            return False
 
 if __name__ == '__main__':
     conn = None
