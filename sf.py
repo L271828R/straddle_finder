@@ -145,8 +145,11 @@ def main(conn):
             op.goto(ticker=tick, date=None)
             try:
                 arr = get_straddles(driver=driver, ticker=tick, conf=conf)
+                save_count = 0
                 for straddle in arr:
-                    save_straddle(conn, straddle)
+                    if save_straddle(conn, straddle):
+                        save_count += 1
+                print("saved {} records".format(save_count))        
                 op.dates = None
             except Exception as e:
                 print("Unexpected error:", sys.exc_info()[0])
@@ -170,11 +173,10 @@ def save_straddle(conn, straddle):
         })
 
         if cursor.count() == 0:
-            print("inserting....")
             collection.insert_one(straddle)
+            return True
         else:
-            print("not inserting...")
-            pass
+            return False
 
 if __name__ == '__main__':
     conn = None
