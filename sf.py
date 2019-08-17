@@ -173,9 +173,14 @@ def save_straddle(conn, straddle):
 
 
 def main(conn):
-    print('Straddle Finder') 
+    print('Straddle Finder Selenium') 
     driver = create_driver(conf)
-    tickers = ['aapl','spy']
+    if len(sys.argv) > 1:
+        print("found it " + sys.argv[1])
+        if sys.argv[1] == 'reverse':
+            tickers.reverse()
+        input()
+    # tickers = ['aapl','spy']
     straddles = []
     op = OptionPage(driver=driver, conf=conf)
     for count, tick in enumerate(tickers):
