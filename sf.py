@@ -9,6 +9,7 @@ from datetime import datetime
 from pymongo import MongoClient 
 from tickers import tickers
 from conf import conf
+from date_helper import get_nearest_workweek
 
 
 class OptionTypes:
@@ -142,9 +143,22 @@ def isSaved(conn, ticker):
     if cursor.count() > 0:
         # print("cursor returned true for {} {}".format(ticker, now))
         return True
-    else:
-        # print("cursor returned false for {} {}".format(ticker, now))
-        return False
+
+    if cursor.count() == 0:
+        nearest_weekday = get_nearest_workweek()
+        param = {
+            'ticker': ticker,
+            'close_date': nearest_weekday
+        }
+        cursor = collection.find(param)
+        if cursor.count == 0:
+            return False
+        else:
+            return True
+
+
+
+
 
 def create_driver(conf):
     chrome_options = Options()  
@@ -204,6 +218,7 @@ def main(conn):
     return straddles
 
 if __name__ == '__main__':
+    # CALCULATE BUSINESS DAYS
     conn = None
     try: 
        conn = MongoClient() 

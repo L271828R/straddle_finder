@@ -9,6 +9,7 @@ tickers=['spy',
 'tsla',
 'goog',
 'bidu',
+'kl', # Kirkland Gold
 'nvda',
 'bynd',
 'eght',
