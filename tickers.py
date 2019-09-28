@@ -62,7 +62,6 @@ tickers=['spy',
 'tru',
 'fico', # FICO
 'symc', # Symantec
-'fvrr', # Fivr isreal.
 'goos', # canada goose
 'ayx',  # alterx data analysis
 'cldr', # cloudera anaconda spark hourton

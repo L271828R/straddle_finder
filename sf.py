@@ -5,13 +5,13 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
-from datetime import datetime
 from pymongo import MongoClient 
 from conf import conf
 from date_helper import get_nearest_workweek
 import random
 from page import OptionPage
-
+from page import OptionTypes
+from datetime import datetime
 
 def get_straddles(driver ,ticker, conf):
     op = OptionPage(driver, conf)
@@ -92,6 +92,35 @@ def save_straddle(conn, straddle):
         else:
             return False
 
+def get_vol(arr, days):
+    for i, row in enumerate(arr):
+        if row['type'] == 'put-in-the-money' and row['days_to_expiration'] == days:
+            return row['be']
+        elif row['type'] == 'put-in-the-money' and row['days_to_expiration'] < days \
+             and arr[i+1]['days_to_expiration'] > days:
+
+            if 'be' in row.keys() and 'be' in arr[i+1].keys():
+                return calc_vol(row, arr[i+i],days) 
+            else:
+                return None
+
+   
+
+
+def calc_vol(v1, v2, target):
+    y1 = float(v1['be'].strip("%"))
+    x1 = float(v1['days_to_expiration'])
+
+    y2 = float(v2['be'].strip("%"))
+    x2 = float(v2['days_to_expiration'])
+
+    m = (y1 - y2) / (x1 - x2)
+    b = -1 * ( m * x1 - y1 )
+    ans = (m * target) + b
+    return str(round(ans,2)) + '%'
+ 
+
+ 
 
 def main(conn):
     from tickers import tickers
@@ -100,8 +129,7 @@ def main(conn):
     driver = create_driver(conf)
     if len(sys.argv) > 1:
         print("found it " + sys.argv[1])
-        if sys.argv[1] == 'reverse':
-            tickers.reverse()
+        if sys.argv[1] == 'reverse': tickers.reverse()
         if sys.argv[1] == 'random': 
             random.shuffle(tickers)
     # tickers = ['spy']
@@ -111,6 +139,11 @@ def main(conn):
         if not isSaved(conn=conn, ticker=tick):
             print("{} of {}, currently {}".format(str(count + 1), str(len(tickers)), tick))
             op.goto(ticker=tick, date=None)
+            time.sleep(1)
+            # ticker_straddle = {'meta-data': [
+                # '10-day-vol' : get_vol(arr, days=10),
+                # '1-day-vol' : get_vol(arr, days=1)],
+                # 'data': arr}
             try:
                 arr = get_straddles(driver=driver, ticker=tick, conf=conf)
                 save_count = 0
@@ -120,8 +153,9 @@ def main(conn):
                 print("saved {} records".format(save_count))        
                 op.dates = None
             except Exception as e:
-               print("Unexpected error:", sys.exc_info()[0])
-               print(e)
+                input()
+                print("Unexpected error:", sys.exc_info()[0])
+                print(e)
 
     driver_cleanup(driver)
     print('returning straddles')
