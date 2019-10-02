@@ -119,8 +119,29 @@ def calc_vol(v1, v2, target):
     ans = (m * target) + b
     return str(round(ans,2)) + '%'
  
+def get_straddle_by_ticker(conn, driver, conf, op, tick, i, total_count):
+    if not isSaved(conn=conn, ticker=tick):
+        print("{} of {}, currently {}".format(str(i), str(total_count), tick))
+        op.goto(ticker=tick, date=None)
+        time.sleep(1)
+        # ticker_straddle = {'meta-data': [
+            # '10-day-vol' : get_vol(arr, days=10),
+            # '1-day-vol' : get_vol(arr, days=1)],
+            # 'data': arr}
+        try:
+            arr = get_straddles(driver=driver, ticker=tick, conf=conf)
+            save_count = 0
+            for straddle in arr:
+                if save_straddle(conn, straddle):
+                    save_count += 1
+            print("saved {} records".format(save_count))        
+            print(datetime.now().strftime("%Y-%m-%d %H:%M"))
+            op.dates = None
+        except Exception as e:
+            print("Unexpected error:", sys.exc_info()[0])
+            print(e)
 
- 
+
 
 def main(conn):
     from tickers import tickers
@@ -135,28 +156,9 @@ def main(conn):
     # tickers = ['spy']
     straddles = []
     op = OptionPage(driver=driver, conf=conf)
-    for count, tick in enumerate(tickers):
-        if not isSaved(conn=conn, ticker=tick):
-            print("{} of {}, currently {}".format(str(count + 1), str(len(tickers)), tick))
-            op.goto(ticker=tick, date=None)
-            time.sleep(1)
-            # ticker_straddle = {'meta-data': [
-                # '10-day-vol' : get_vol(arr, days=10),
-                # '1-day-vol' : get_vol(arr, days=1)],
-                # 'data': arr}
-            try:
-                arr = get_straddles(driver=driver, ticker=tick, conf=conf)
-                save_count = 0
-                for straddle in arr:
-                    if save_straddle(conn, straddle):
-                        save_count += 1
-                print("saved {} records".format(save_count))        
-                op.dates = None
-            except Exception as e:
-                input()
-                print("Unexpected error:", sys.exc_info()[0])
-                print(e)
-
+    for i, tick in enumerate(tickers):
+        get_straddle_by_ticker(conn, driver, conf, op, tick, i, len(tickers))
+    
     driver_cleanup(driver)
     print('returning straddles')
     return straddles
