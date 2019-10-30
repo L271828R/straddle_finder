@@ -3,25 +3,53 @@
 
 tickers=['spy',
 'mo',
+<<<<<<< HEAD
+'ter', # Teradyne chip equip
+'lrcx', # Lam research chip equip
+'klac', # KLA Corp chip equip
+'aapl',
+'huya',
+'work',
+'stz', # contellation branks pot
+'jnj',
+'twlo',
+'mdb',
+'intc',
+'lulu',
+'shak',
+=======
 'aapl',
 'huya',
 'work',
 'twlo',
 'mdb',
 'lulu',
+>>>>>>> origin/master
 'pvtl',
 'zm',
 'docu',
 'gme',
 'tsla',
+<<<<<<< HEAD
+'avgo', # Broadcom
+'txn', # Texas instrument
+'orcl',
+'mu',
+'cost', # moved +.90% on earnigs date (10/4/2019)
+=======
 'avgo',
 'orcl',
 'mu',
 'cost',
+>>>>>>> origin/master
 'goog',
 'bidu',
 'kl', # Kirkland Gold
 'nvda',
+<<<<<<< HEAD
+'tsm', # Taiwan Semi Conductor
+=======
+>>>>>>> origin/master
 'bynd',
 'eght',
 'amd',
@@ -43,7 +71,11 @@ tickers=['spy',
 'el',  # Estee Lauder Big Mover
 'shop',
 'uber',
+<<<<<<< HEAD
+'qcom', # Qualcom
+=======
 'qcom',
+>>>>>>> origin/master
 'tgt', # 20% on last earnings
 'splk',
 'jnug',
@@ -56,7 +88,11 @@ tickers=['spy',
 'ehth', # eHealth 
 'baba',
 'wmt',
+<<<<<<< HEAD
+'amat', # Applied Materials
+=======
 'amat',
+>>>>>>> origin/master
 'soxl',
 'soxs',
 'tru',
