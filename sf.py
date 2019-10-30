@@ -71,11 +71,7 @@ def create_driver(conf):
     chrome_options = Options()  
     if conf["headless"]:
         chrome_options.add_argument("--headless")
-<<<<<<< HEAD
     return  webdriver.Chrome(conf['chrome_driver_location'], chrome_options=chrome_options)
-=======
-    return  webdriver.Chrome(".//chromedriver", chrome_options=chrome_options)
->>>>>>> origin/master
     
 
 def save_straddle(conn, straddle):
@@ -164,11 +160,7 @@ def main(conn):
         get_straddle_by_ticker(conn, driver, conf, op, tick, i, len(tickers))
     
     driver_cleanup(driver)
-<<<<<<< HEAD
     print('Done')
-=======
-    print('returning straddles')
->>>>>>> origin/master
     return straddles
 
 if __name__ == '__main__':
