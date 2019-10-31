@@ -95,7 +95,7 @@ python straddle_finder.py -reverse
 * close_date = time when the option last traded
 * days_to_expiration = days (including weekends) until options expire.
 * type = since options exactly at the money are rare, the type simply highights that if the straddle has in the money put or call legs.
-* is_close_date = True is this was run after 4:00PM.
+* is_close_date = True if this was run after 4:00PM.
 
 # How do I look for my data in Mongo?
 
