@@ -66,3 +66,33 @@ python straddle_finder.py
 # Alternative run mehod (so as to run in parallel)
 
 python straddle_finder.py -reverse
+
+
+# Can you show me what gets saved in Mongo? What does the datamodel look like?
+
+
+```javascript
+
+{
+	"_id" : ObjectId("5d5a0ec8b1845670465dd5ac"),
+	"type" : "put-in-the-money",
+	"strike" : 200,
+	"call" : 3.15,
+	"put" : 2.68,
+	"date" : "2019-08-23",
+	"be" : "2.92%",
+	"ticker" : "gs",
+	"time_stamp" : "2019-08-18",
+	"close_date" : "2019-08-16",
+	"is_close_date" : true,
+	"days_to_expiration" : 4
+}
+
+```
+
+* be = break even, this is the value of the put plus the value of the call devided by the at the money strike price.
+* time_stamp = time the script was run
+* close_date = time when the option last traded
+* days_to_expiration = days (including weekends) until options expire.
+* type = since options exactly at the money are rare, the type simply highights that if the straddle has in the money put or call legs.
+
