@@ -56,7 +56,7 @@ Kindly visit the follwoing repos for awesome reports based on the data saved her
 
 # How to run
 
-python sf.py
+python straddle_finder.py
 
 
 ![running straddle finder](https://i.imgur.com/IEqUWrp.jpg)
