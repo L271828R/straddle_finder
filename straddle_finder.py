@@ -150,7 +150,8 @@ def main(conn):
     driver = create_driver(conf)
     if len(sys.argv) > 1:
         print("found it " + sys.argv[1])
-        if sys.argv[1] == 'reverse': tickers.reverse()
+        if sys.argv[1] == 'reverse':
+            tickers.reverse()
         if sys.argv[1] == 'random': 
             random.shuffle(tickers)
     # tickers = ['spy']
