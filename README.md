@@ -59,7 +59,7 @@ Kindly visit the follwoing repos for awesome reports based on the data saved her
 python sf.py
 
 
-![running straddle finder](https://imgur.com/a/ijF4uT4.jpg)
+![running straddle finder](https://i.imgur.com/IEqUWrp.jpg)
 
 
 
