@@ -96,3 +96,9 @@ python straddle_finder.py -reverse
 * days_to_expiration = days (including weekends) until options expire.
 * type = since options exactly at the money are rare, the type simply highights that if the straddle has in the money put or call legs.
 
+# How do I look for my data in Mongo?
+
+* mongo > use database > database.straddle.findOne({ticker:'gs'})
+
+
+![running straddle finder](https://i.imgur.com/4zTn2B8.jpg)
