@@ -49,6 +49,11 @@ earnings_report => This is for knowing what the straddle is for a company that w
 
 python sf.py
 
+
+![running straddle finder](https://i.imgur.com/ef2GRUD.jpg)
+
+
+
 # Alternative run mehod (so as to run in parallel)
 
 python sf.py -reverse
