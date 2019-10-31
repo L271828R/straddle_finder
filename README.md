@@ -51,8 +51,8 @@ Also list your favorite tickers in tickers.py
 
 Kindly visit the follwoing repos for awesome reports based on the data saved here:
 
-straddle_report => Gives you the latest straddle or the time series of a straddle.
-earnings_report => This is for knowing what the straddle is for a company that will report earnings.
+* straddle_report => Gives you the latest straddle or the time series of a straddle.
+* earnings_report => This is for knowing what the straddle is for a company that will report earnings.
 
 # How to run
 
