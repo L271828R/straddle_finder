@@ -65,4 +65,4 @@ python sf.py
 
 # Alternative run mehod (so as to run in parallel)
 
-python sf.py -reverse
+python straddle_finder.py -reverse
