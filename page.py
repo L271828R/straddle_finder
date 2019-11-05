@@ -57,7 +57,17 @@ class OptionPage:
             if len(close_date) == 6:
                 close_date = datetime.now().strftime("%Y-%m-%d")
             else:
-                close_dt = datetime.strptime(close_date, "%B %d %I:%M%p")
+                try:
+                    close_dt = datetime.strptime(close_date, "%B %d %I:%M%p")
+                except ValueError:
+                    today = datetime.now()
+                    month = today.month
+                    day   = today.day
+                    year  = today.year
+                    hour = 16
+                    sdate = "{}-{}-{} {}".format(year, month, day, hour)
+                    close_dt = datetime.strptime(sdate, "%Y-%m-%d %M")
+
                 close_date = close_dt.strftime( str(datetime.now().year) + "-%m-%d")
         return close_date
 
