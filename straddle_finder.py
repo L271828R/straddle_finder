@@ -2,35 +2,48 @@ import selenium
 import sys
 import random
 import time
+import random
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from pymongo import MongoClient 
 from conf import conf
 from date_helper import get_nearest_workweek
-import random
 from page import OptionPage
 from page import OptionTypes
-from datetime import datetime
+from datetime import datetime as dt
+from pprint import PrettyPrinter
+from tickers import tickers
 
+
+def print_performance(f):
+    def inner(*args, **kwargs):
+        now = dt.now()
+        results = f(*args, **kwargs)
+        end = dt.now()
+        diff = end - now
+        print(divmod(diff.days * 86400 + diff.seconds, 60))
+        return results
+    return inner
+
+@print_performance
 def get_straddles(driver ,ticker, conf):
     op = OptionPage(driver, conf)
     op.ticker = ticker
     arr = []
     isFirst = True
     if conf["limit_dates"] is not None and ticker not in conf['exceptions']:
+        op.goto(ticker=ticker)
         op.dates = op.get_available_months()[:conf["limit_dates"]]
     else:
         op.dates = op.get_available_months()[:conf['exception_limit']]
 
     for date in op.dates:
-        if isFirst == False:
-            op.goto(ticker, date)
+        op.goto(ticker, date)
         puts_itm = op.get_straddle(OptionTypes.IN_THE_MONEY_PUTS, date)
         calls_itm = op.get_straddle(OptionTypes.IN_THE_MONEY_CALLS, date)
         arr.append(puts_itm)
         arr.append(calls_itm)
-        isFirst = False
     return arr
 
 def driver_cleanup(driver):
@@ -41,7 +54,7 @@ def driver_cleanup(driver):
 def isSaved(conn, ticker):
     db = conn.database 
     collection = db.straddles
-    now = datetime.now().strftime("%Y-%m-%d")
+    now = dt.now().strftime("%Y-%m-%d")
     param = {
         'ticker': ticker,
         'time_stamp': now
@@ -122,8 +135,8 @@ def calc_vol(v1, v2, target):
 def get_straddle_by_ticker(conn, driver, conf, op, tick, i, total_count):
     if not isSaved(conn=conn, ticker=tick):
         print("{} of {}, currently {}".format(str(i), str(total_count), tick))
-        op.goto(ticker=tick, date=None)
-        time.sleep(1)
+        # op.goto(ticker=tick, date=None)
+        # time.sleep(1)
         # ticker_straddle = {'meta-data': [
             # '10-day-vol' : get_vol(arr, days=10),
             # '1-day-vol' : get_vol(arr, days=1)],
@@ -132,10 +145,14 @@ def get_straddle_by_ticker(conn, driver, conf, op, tick, i, total_count):
             arr = get_straddles(driver=driver, ticker=tick, conf=conf)
             save_count = 0
             for straddle in arr:
+                if conf['verbose']:
+                    pp = PrettyPrinter()
+                    pp.pprint(straddle)
+
                 if save_straddle(conn, straddle):
                     save_count += 1
             print("saved {} records".format(save_count))        
-            print(datetime.now().strftime("%Y-%m-%d %H:%M"))
+            print(dt.now().strftime("%Y-%m-%d %H:%M"))
             op.dates = None
         except Exception as e:
             print("Unexpected error:", sys.exc_info()[0])
@@ -144,16 +161,19 @@ def get_straddle_by_ticker(conn, driver, conf, op, tick, i, total_count):
 
 
 def main(conn):
-    from tickers import tickers
     # tickers = ['mdb']
     print('Straddle Finder Selenium') 
     driver = create_driver(conf)
     if len(sys.argv) > 1:
-        print("found it " + sys.argv[1])
         if sys.argv[1] == 'reverse':
             tickers.reverse()
         if sys.argv[1] == 'random': 
             random.shuffle(tickers)
+        if sys.argv[1] == '-v' or sys.argv[1]== '--verbose':
+            conf['verbose'] = True
+    if len(sys.argv) > 2:
+        if sys.argv[2] == '-v' or sys.argv[2] == '-verbose':
+            conf['verbose'] = True
     # tickers = ['spy']
     straddles = []
     op = OptionPage(driver=driver, conf=conf)
@@ -165,11 +185,10 @@ def main(conn):
     return straddles
 
 if __name__ == '__main__':
-    # CALCULATE BUSINESS DAYS
+    # TODO CALCULATE BUSINESS DAYS
     conn = None
     try: 
        conn = MongoClient() 
-       print("Connected successfully!!!") 
     except:   
        print("Could not connect to MongoDB") 
     main(conn=conn)

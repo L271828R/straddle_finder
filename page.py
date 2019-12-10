@@ -11,17 +11,19 @@ class OptionTypes:
 class OptionPage:
     def __init__(self, driver, conf):
         self.driver = driver
-        self.STRIKE_COLUMN = 5 
-        self.PUT_PRICE_COLUMN = 0 
+        self.STRIKE_COLUMN = 5
+        self.PUT_PRICE_COLUMN = 0
         self.CALL_PRICE_COLUMN = 6
         self.ticker = None
         self.conf = conf
         self.once = False
         self.dates = None
-    
+
     def goto(self, ticker, date=None):
         url = 'https://finance.yahoo.com/quote/__TICKER__/options?p=__TICKER__&straddle=true'
         url = url.replace('__TICKER__', ticker)
+        if self.conf['verbose']:
+            print('GOING TO:' ,url, date)
         self.driver.get(url)
         self.driver.implicitly_wait(8)
         self.once = True
@@ -31,13 +33,13 @@ class OptionPage:
             time.sleep(8)
             el_sel = Select(self.driver.find_element_by_tag_name("select"))
             el_sel.select_by_visible_text(date.strftime("%B %-d, %Y"))
+
         time.sleep(3)
         if self.conf['random_time'] == True:
             self.driver.implicitly_wait(random.randrange(5, 15))
         else:
             self.driver.implicitly_wait(3)
         self.driver.implicitly_wait(3)
-        self.ticker = ticker
 
     def get_available_months(self):
         self.driver.implicitly_wait(8)

@@ -1,0 +1,51 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+IN_THE_MONEY_CALLS	page.py	/^    IN_THE_MONEY_CALLS = "call-in-the-money"$/;"	v	class:OptionTypes
+IN_THE_MONEY_PUTS	page.py	/^    IN_THE_MONEY_PUTS = "put-in-the-money"$/;"	v	class:OptionTypes
+MongoClient	straddle_finder.py	/^from pymongo import MongoClient $/;"	i
+OptionPage	page.py	/^class OptionPage:$/;"	c
+OptionPage	straddle_finder.py	/^from page import OptionPage$/;"	i
+OptionTypes	page.py	/^class OptionTypes:$/;"	c
+OptionTypes	straddle_finder.py	/^from page import OptionTypes$/;"	i
+Options	page.py	/^from selenium.webdriver.chrome.options import Options$/;"	i
+Options	straddle_finder.py	/^from selenium.webdriver.chrome.options import Options$/;"	i
+Select	page.py	/^from selenium.webdriver.support.ui import Select$/;"	i
+Select	straddle_finder.py	/^from selenium.webdriver.support.ui import Select$/;"	i
+__init__	page.py	/^    def __init__(self, driver, conf):$/;"	m	class:OptionPage
+ans	date_helper.py	/^    ans = get_nearest_workweek()$/;"	v
+calc_vol	straddle_finder.py	/^def calc_vol(v1, v2, target):$/;"	f
+conf	conf.py	/^conf = { "random_time": True,$/;"	v
+conf	straddle_finder.py	/^from conf import conf$/;"	i
+conn	straddle_finder.py	/^       conn = MongoClient() $/;"	v
+conn	straddle_finder.py	/^    conn = None$/;"	v
+create_driver	straddle_finder.py	/^def create_driver(conf):$/;"	f
+datetime	date_helper.py	/^from datetime import datetime, timedelta$/;"	i
+datetime	page.py	/^from datetime import datetime$/;"	i
+datetime	straddle_finder.py	/^from datetime import datetime$/;"	i
+driver_cleanup	straddle_finder.py	/^def driver_cleanup(driver):$/;"	f
+get_available_months	page.py	/^    def get_available_months(self):$/;"	m	class:OptionPage
+get_close_date	page.py	/^    def get_close_date(self):$/;"	m	class:OptionPage
+get_nearest_workweek	date_helper.py	/^def get_nearest_workweek():$/;"	f
+get_nearest_workweek	straddle_finder.py	/^from date_helper import get_nearest_workweek$/;"	i
+get_straddle	page.py	/^    def get_straddle(self, straddle_type, date):$/;"	m	class:OptionPage
+get_straddle_by_ticker	straddle_finder.py	/^def get_straddle_by_ticker(conn, driver, conf, op, tick, i, total_count):$/;"	f
+get_straddles	straddle_finder.py	/^def get_straddles(driver ,ticker, conf):$/;"	f
+get_vol	straddle_finder.py	/^def get_vol(arr, days):$/;"	f
+goto	page.py	/^    def goto(self, ticker, date=None):$/;"	m	class:OptionPage
+isSaved	straddle_finder.py	/^def isSaved(conn, ticker):$/;"	f
+main	straddle_finder.py	/^def main(conn):$/;"	f
+random	page.py	/^import random$/;"	i
+random	straddle_finder.py	/^import random$/;"	i
+save_straddle	straddle_finder.py	/^def save_straddle(conn, straddle):$/;"	f
+selenium	straddle_finder.py	/^import selenium$/;"	i
+sys	straddle_finder.py	/^import sys$/;"	i
+tickers	straddle_finder.py	/^    from tickers import tickers$/;"	i
+tickers	tickers.py	/^tickers=['spy',$/;"	v
+time	page.py	/^import time$/;"	i
+time	straddle_finder.py	/^import time$/;"	i
+timedelta	date_helper.py	/^from datetime import datetime, timedelta$/;"	i
+webdriver	straddle_finder.py	/^from selenium import webdriver$/;"	i

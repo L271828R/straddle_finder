@@ -3,6 +3,7 @@
 
 tickers=['spy',
 'mo',
+'dbx',
 'ter', # Teradyne chip equip
 'lrcx', # Lam research chip equip
 'klac', # KLA Corp chip equip
