@@ -8,6 +8,7 @@ tickers=['spy',
 'lrcx', # Lam research chip equip
 'klac', # KLA Corp chip equip
 'aapl',
+'bl',  # blackline
 'huya',
 'work',
 'stz', # contellation branks pot
